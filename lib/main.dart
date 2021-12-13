@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/screens/HomePage/HomePage.dart';
-import 'package:movie_app/screens/MoviePage/MoviePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,15 +10,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'EMovies',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xff15141F),
-        splashFactory: InkRipple.splashFactory,
-        primarySwatch: Colors.blueGrey,
-      ),
-      home:HomePage()
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'EMovies',
+        theme: ThemeData(
+          scaffoldBackgroundColor: Color(0xff15141F),
+          splashFactory: InkRipple.splashFactory,
+          primarySwatch: Colors.blueGrey,
+        ),
+        home: HomePage());
   }
 }
-
