@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'EMovies',
         theme: ThemeData(
+          brightness: Brightness.dark,
           scaffoldBackgroundColor: Color(0xff15141F),
           splashFactory: InkRipple.splashFactory,
-          primarySwatch: Colors.blueGrey,
         ),
         home: HomePage());
   }

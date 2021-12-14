@@ -27,7 +27,7 @@ class _CategoryState extends State<Category> {
           itemCount: categories.length,
           itemBuilder: (context, index) {
             return Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 12),
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 1000),
                 child: Column(

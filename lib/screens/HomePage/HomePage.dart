@@ -24,11 +24,15 @@ class _HomePageState extends State<HomePage> {
           pages[index](size),
           Spacer(),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 15),
+            decoration: BoxDecoration(
+              color: Colors.black38,
+            ),
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 IconButton(
+                    splashRadius: 25,
                     onPressed: () {
                       setState(() {
                         index = 0;
@@ -37,8 +41,10 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(
                       Icons.home,
                       color: index == 0 ? Colors.white : Colors.blueGrey,
+                      size: 25,
                     )),
                 IconButton(
+                    splashRadius: 25,
                     onPressed: () {
                       setState(() {
                         index = 1;
@@ -47,8 +53,10 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(
                       Icons.play_circle_fill_outlined,
                       color: index == 1 ? Colors.white : Colors.blueGrey,
+                      size: 25,
                     )),
                 IconButton(
+                    splashRadius: 25,
                     onPressed: () {
                       setState(() {
                         index = 2;
@@ -57,6 +65,7 @@ class _HomePageState extends State<HomePage> {
                     icon: Icon(
                       Icons.person,
                       color: index == 2 ? Colors.white : Colors.blueGrey,
+                      size: 25,
                     ))
               ],
             ),
