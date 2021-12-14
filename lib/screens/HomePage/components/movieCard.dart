@@ -7,31 +7,34 @@ class MovieCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 150,
-          height: 200,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-          child: Image.network(
-            'https://avatars.mds.yandex.net/i?id=e157550c2736f574c60fc9fe36e0581a-3527582-images-thumbs&n=13',
-            fit: BoxFit.cover,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+              height: 220,
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                      'https://fs.kinomania.ru/file/film_poster/7/bc/7bc915596e02e9450fb7f46c187cfdc4.jpeg',
+                    )),
+              )),
+          SizedBox(
+            height: 10,
           ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Container(
-          child: Text(
-            "Soul 2020",
-            style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: size.width / 25),
+          Container(
+            child: Text(
+              "Insidious 3",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: size.width / 25),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
