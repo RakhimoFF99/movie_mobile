@@ -5,6 +5,7 @@ import 'package:movie_app/screens/HomePage/components/Category.dart';
 import 'package:movie_app/screens/HomePage/components/movieCard.dart';
 import 'package:get/get.dart';
 import 'package:movie_app/screens/MoviePage/MoviePage.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -135,8 +136,8 @@ Widget home(size, context) {
                 bottom: 15,
                 left: 30,
                 child: Container(
-                    width: size.height / 4,
-                    height: size.height / 13,
+                    width: size.width / 2.5,
+                    height: size.height / 15,
                     child: ClipRect(
                       child: BackdropFilter(
                         filter: ImageFilter.blur(
@@ -165,7 +166,7 @@ Widget home(size, context) {
                                   child: Text(
                                     "Insidious 3",
                                     style: TextStyle(
-                                      fontSize: size.width / 25,
+                                      fontSize: size.width / 26,
                                       fontWeight: FontWeight.w800,
                                     ),
                                     overflow: TextOverflow.ellipsis,
