@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MoviePage extends StatelessWidget {
-  const MoviePage({Key? key}) : super(key: key);
+  final index;
+  const MoviePage({Key? key, this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(index);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
@@ -12,13 +14,16 @@ class MoviePage extends StatelessWidget {
         children: [
           Stack(
             children: [
-              Container(
-                height: size.height / 2.5,
-                width: double.infinity,
+              Hero(
+                tag: index,
                 child: Container(
-                  child: Image.network(
-                    'https://fs.kinomania.ru/file/film_poster/7/bc/7bc915596e02e9450fb7f46c187cfdc4.jpeg',
-                    fit: BoxFit.fill,
+                  height: size.height / 2.5,
+                  width: double.infinity,
+                  child: Container(
+                    child: Image.network(
+                      'https://fs.kinomania.ru/file/film_poster/7/bc/7bc915596e02e9450fb7f46c187cfdc4.jpeg',
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
               ),

@@ -1,6 +1,9 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:movie_app/screens/HomePage/components/Category.dart';
 import 'package:movie_app/screens/HomePage/components/movieCard.dart';
+import 'package:get/get.dart';
 import 'package:movie_app/screens/MoviePage/MoviePage.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          pages[index](size),
+          pages[index](size, context),
           Spacer(),
           Container(
             decoration: BoxDecoration(
@@ -76,11 +79,117 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget home(size) {
-  return Container();
+Widget home(size, context) {
+  print(home);
+  return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: size.height / 13,
+          ),
+          Row(
+            children: [
+              Text(
+                "Stream",
+                style: TextStyle(
+                  color: Colors.red,
+                  fontSize: size.width / 15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                "Everywhere",
+                style: TextStyle(
+                  fontSize: size.width / 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Stack(
+            children: [
+              Hero(
+                tag: 0,
+                child: Container(
+                  height: size.height / 4,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(30),
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(
+                            'https://fs.kinomania.ru/file/film_poster/7/bc/7bc915596e02e9450fb7f46c187cfdc4.jpeg',
+                          ))),
+                ),
+              ),
+              Positioned(
+                bottom: 15,
+                left: 30,
+                child: Container(
+                    width: size.height / 4,
+                    height: size.height / 13,
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(
+                          sigmaY: 3.0,
+                          sigmaX: 3.0,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(MoviePage(
+                              index: 0,
+                            ));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.play_circle_filled_outlined,
+                                  color: Colors.red,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  width: size.width / 4,
+                                  child: Text(
+                                    "Insidious 3",
+                                    style: TextStyle(
+                                      fontSize: size.width / 25,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                )
+                              ],
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                            ),
+                            decoration: BoxDecoration(
+                                color: Colors.white70.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                        ),
+                      ),
+                    )),
+              )
+            ],
+          )
+        ],
+      ));
 }
 
-Widget play(size) {
+Widget play(size, context) {
   return Container(
     padding: EdgeInsets.symmetric(
       horizontal: 20,
@@ -134,40 +243,38 @@ Widget play(size) {
           height: 20,
         ),
         Category(),
-        Column(
-          children: [
-            Container(
-              child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.7,
-                    crossAxisSpacing: 10,
-                  ),
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MoviePage()));
-                      },
-                      child: Container(
-                        child: MovieCard(),
-                      ),
-                    );
-                  }),
-            ),
-          ],
-        )
+        Container(
+          child: GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 15,
+                childAspectRatio: 0.5,
+                crossAxisSpacing: 10,
+              ),
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                    onTap: () {
+                      Get.to(MoviePage(
+                        index: index,
+                      ));
+                    },
+                    child: Column(
+                      children: [
+                        MovieCard(
+                          index: index,
+                        ),
+                      ],
+                    ));
+              }),
+        ),
       ],
     ),
   );
 }
 
-Widget personAccount(size) {
+Widget personAccount(size, context) {
   return Container();
 }

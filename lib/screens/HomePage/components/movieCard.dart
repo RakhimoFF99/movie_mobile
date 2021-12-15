@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
   final data;
-  MovieCard({this.data});
+  final index;
+  MovieCard({this.data, this.index});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-              height: 220,
+
+    return Column(
+      children: [
+        Hero(
+          tag: index,
+          child: Container(
+              height: size.height / 3.5,
               decoration: BoxDecoration(
                 color: Colors.green,
                 borderRadius: BorderRadius.circular(20),
@@ -21,20 +24,20 @@ class MovieCard extends StatelessWidget {
                       'https://fs.kinomania.ru/file/film_poster/7/bc/7bc915596e02e9450fb7f46c187cfdc4.jpeg',
                     )),
               )),
-          SizedBox(
-            height: 10,
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Container(
+          child: Text(
+            "Insidious 3",
+            style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: size.width / 25),
           ),
-          Container(
-            child: Text(
-              "Insidious 3",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: size.width / 25),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
