@@ -123,7 +123,6 @@ Widget home(size, context) {
                   height: size.height / 4,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: Colors.red,
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                           fit: BoxFit.fill,
@@ -141,8 +140,8 @@ Widget home(size, context) {
                     child: ClipRect(
                       child: BackdropFilter(
                         filter: ImageFilter.blur(
-                          sigmaY: 3.0,
-                          sigmaX: 3.0,
+                          sigmaY: 2.0,
+                          sigmaX: 2.0,
                         ),
                         child: GestureDetector(
                           onTap: () {
@@ -156,7 +155,7 @@ Widget home(size, context) {
                               children: [
                                 Icon(
                                   Icons.play_circle_filled_outlined,
-                                  color: Colors.red,
+                                  color: Colors.white,
                                 ),
                                 SizedBox(
                                   width: 10,
