@@ -17,10 +17,19 @@ class MovieController extends GetxController {
 
   Future getAllMovie() async {
     isMovieLoaded.value = false;
-    http.Response response = await http.get(Uri.parse("${baseUrl}movie/all"));
-    var data = await jsonDecode(response.body);
-    movies.value = data['movies'];
-    isMovieLoaded.value = true;
+    print('ssdsd');
+    try {
+      http.Response response = await http.get(Uri.parse("${baseUrl}movie/all"));
+
+      var data = await jsonDecode(response.body);
+      print(data);
+      movies.value = data['movies'];
+      isMovieLoaded.value = true;
+    }
+    catch(e) {
+      print(e);
+    }
+
   }
 
   Future getMovieByCategory(categoryId) async {}

@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'EMovies',
+        title: 'EMovie',
         theme: ThemeData(
           brightness: Brightness.dark,
           scaffoldBackgroundColor: Color(0xff15141F),
