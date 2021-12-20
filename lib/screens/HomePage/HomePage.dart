@@ -1,6 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:movie_app/getx/movie_controller/movie_controller.dart';
 import 'package:movie_app/screens/HomePage/components/Category.dart';
 import 'package:movie_app/screens/HomePage/components/movieCard.dart';
 import 'package:get/get.dart';
@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var movieController = Get.put(MovieController());
   int index = 0;
   List pages = [home, play, personAccount];
 
@@ -22,66 +23,62 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          pages[index](size, context),
-          Spacer(),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.black38,
-            ),
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: SingleChildScrollView(
+          child: GetX<MovieController>(
+        init: MovieController(),
+        builder: (controller) {
+          if (controller.isMovieLoaded.isTrue) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                    splashRadius: 25,
-                    onPressed: () {
-                      setState(() {
-                        index = 0;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.home,
-                      color: index == 0 ? Colors.white : Colors.blueGrey,
-                      size: 25,
-                    )),
-                IconButton(
-                    splashRadius: 25,
-                    onPressed: () {
-                      setState(() {
-                        index = 1;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.play_circle_fill_outlined,
-                      color: index == 1 ? Colors.white : Colors.blueGrey,
-                      size: 25,
-                    )),
-                IconButton(
-                    splashRadius: 25,
-                    onPressed: () {
-                      setState(() {
-                        index = 2;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.person,
-                      color: index == 2 ? Colors.white : Colors.blueGrey,
-                      size: 25,
-                    ))
+                pages[index](size, context, movieController),
               ],
-            ),
-          ),
+            );
+          } else {
+            return Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: size.height,
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      )),
+      bottomNavigationBar: Container(
+          child: BottomNavigationBar(
+        backgroundColor: Colors.black38,
+        type: BottomNavigationBarType.fixed,
+        onTap: (value) {
+          setState(() {
+            index = value;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+                color: index == 0 ? Colors.red : Colors.white,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.play_circle_fill_outlined,
+                color: index == 1 ? Colors.red : Colors.white,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                color: index == 2 ? Colors.red : Colors.white,
+              ),
+              label: "")
         ],
-      ),
+      )),
     );
   }
 }
 
-Widget home(size, context) {
-  print(home);
+Widget home(size, context, movieController) {
   return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 20,
@@ -120,76 +117,90 @@ Widget home(size, context) {
             children: [
               Hero(
                 tag: 0,
-                child: Container(
-                  height: size.height / 4,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(
-                            'https://fs.kinomania.ru/file/film_poster/7/bc/7bc915596e02e9450fb7f46c187cfdc4.jpeg',
-                          ))),
+                child: GetX<MovieController>(
+                  init: MovieController(),
+                  builder: (controller) {
+                    return Container(
+                      height: size.height / 4,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(
+                                controller.movies[6]['mainImagePath'],
+                              ))),
+                    );
+                  },
                 ),
               ),
               Positioned(
                 bottom: 15,
                 left: 30,
-                child: Container(
-                    width: size.width / 2.5,
-                    height: size.height / 15,
-                    child: ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(
-                          sigmaY: 2.0,
-                          sigmaX: 2.0,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.to(MoviePage(
-                              index: 0,
-                            ));
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.play_circle_filled_outlined,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Container(
-                                  width: size.width / 4,
-                                  child: Text(
-                                    "Insidious 3",
-                                    style: TextStyle(
-                                      fontSize: size.width / 26,
-                                      fontWeight: FontWeight.w800,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                )
-                              ],
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                child: GetX<MovieController>(
+                  init: MovieController(),
+                  builder: (controller) {
+                    return Container(
+                        width: size.width / 2.5,
+                        height: size.height / 15,
+                        child: ClipRect(
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaY: 2.0,
+                              sigmaX: 2.0,
                             ),
-                            decoration: BoxDecoration(
-                                color: Colors.white70.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(10)),
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(MoviePage(
+                                  data: controller.movies[6],
+                                  index: 0,
+                                ));
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.play_circle_filled_outlined,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      width: size.width / 4,
+                                      child: Text(
+                                        controller.movies[6]['name'],
+                                        style: TextStyle(
+                                          fontSize: size.width / 26,
+                                          fontWeight: FontWeight.w800,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )
+                                  ],
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                ),
+                                decoration: BoxDecoration(
+                                    color: Colors.black54.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(10)),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    )),
+                        ));
+                  },
+                ),
               )
             ],
-          )
+          ),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ));
 }
 
-Widget play(size, context) {
+Widget play(size, context, movieController) {
   return Container(
     padding: EdgeInsets.symmetric(
       horizontal: 20,
@@ -243,38 +254,48 @@ Widget play(size, context) {
           height: 20,
         ),
         Category(),
-        Container(
-          child: GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 15,
-                childAspectRatio: 0.5,
-                crossAxisSpacing: 10,
-              ),
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      Get.to(MoviePage(
-                        index: index,
-                      ));
-                    },
-                    child: Column(
-                      children: [
-                        MovieCard(
-                          index: index,
-                        ),
-                      ],
-                    ));
-              }),
+        GetBuilder<MovieController>(
+            init: MovieController(),
+            builder: (controller) {
+              return Container(
+                child: GridView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: size.height * 0.00070,
+                      crossAxisSpacing: 15,
+                    ),
+                    itemCount: controller.movies.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Get.to(MoviePage(
+                              index: index,
+                              data: controller.movies[index],
+                            ));
+                          },
+                          child: Column(
+                            children: [
+                              MovieCard(
+                                index: index,
+                                data: controller.movies[index],
+                              ),
+                            ],
+                          ));
+                    }),
+              );
+            }),
+        SizedBox(
+          height: 20,
         ),
       ],
     ),
   );
 }
 
-Widget personAccount(size, context) {
-  return Container();
+Widget personAccount(size, context, movieController) {
+  return Column(
+    children: [],
+  );
 }

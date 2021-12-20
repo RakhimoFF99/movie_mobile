@@ -21,7 +21,7 @@ class MovieCard extends StatelessWidget {
                 image: DecorationImage(
                     fit: BoxFit.fill,
                     image: NetworkImage(
-                      'https://fs.kinomania.ru/file/film_poster/7/bc/7bc915596e02e9450fb7f46c187cfdc4.jpeg',
+                      data['mainImagePath'],
                     )),
               )),
         ),
@@ -30,7 +30,7 @@ class MovieCard extends StatelessWidget {
         ),
         Container(
           child: Text(
-            "Insidious 3",
+            data['name'],
             style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w800,
