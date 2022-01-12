@@ -21,59 +21,61 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       body: SingleChildScrollView(
           child: GetX<MovieController>(
-        init: MovieController(),
-        builder: (controller) {
-          if (controller.isMovieLoaded.isTrue) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                pages[index](size, context, movieController),
-              ],
-            );
-          } else {
-            return Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: size.height,
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      )),
+            init: MovieController(),
+            builder: (controller) {
+              if (controller.isMovieLoaded.isTrue) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    pages[index](size, context, movieController),
+                  ],
+                );
+              } else {
+                return Container(
+                  alignment: Alignment.center,
+                  width: double.infinity,
+                  height: size.height,
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )),
       bottomNavigationBar: Container(
           child: BottomNavigationBar(
-        backgroundColor: Colors.black38,
-        type: BottomNavigationBarType.fixed,
-        onTap: (value) {
-          setState(() {
-            index = value;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: index == 0 ? Colors.red : Colors.white,
-              ),
-              label: ""),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.play_circle_fill_outlined,
-                color: index == 1 ? Colors.red : Colors.white,
-              ),
-              label: ""),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.person,
-                color: index == 2 ? Colors.red : Colors.white,
-              ),
-              label: "")
-        ],
-      )),
+            backgroundColor: Colors.black,
+            type: BottomNavigationBarType.fixed,
+            onTap: (value) {
+              setState(() {
+                index = value;
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    color: index == 0 ? Colors.red : Colors.white,
+                  ),
+                  label: ""),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.play_circle_fill_outlined,
+                    color: index == 1 ? Colors.red : Colors.white,
+                  ),
+                  label: ""),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.list_alt_outlined,
+                    color: index == 2 ? Colors.red : Colors.white,
+                  ),
+                  label: "")
+            ],
+          )),
     );
   }
 }
@@ -121,14 +123,14 @@ Widget home(size, context, movieController) {
                   init: MovieController(),
                   builder: (controller) {
                     return Container(
-                      height: size.height / 4,
+                      height: size.height / 3.8,
                       width: double.infinity,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
                           image: DecorationImage(
                               fit: BoxFit.fill,
                               image: NetworkImage(
-                                controller.movies[6]['mainImagePath'],
+                                controller.movies[8]['mainImagePath'],
                               ))),
                     );
                   },
@@ -152,7 +154,7 @@ Widget home(size, context, movieController) {
                             child: GestureDetector(
                               onTap: () {
                                 Get.to(MoviePage(
-                                  data: controller.movies[6],
+                                  data: controller.movies[8],
                                   index: 0,
                                 ));
                               },
@@ -170,7 +172,7 @@ Widget home(size, context, movieController) {
                                     Container(
                                       width: size.width / 4,
                                       child: Text(
-                                        controller.movies[6]['name'],
+                                        controller.movies[8]['name'],
                                         style: TextStyle(
                                           fontSize: size.width / 26,
                                           fontWeight: FontWeight.w800,
@@ -193,9 +195,55 @@ Widget home(size, context, movieController) {
               )
             ],
           ),
-          SizedBox(
-            height: 20,
-          ),
+
+        SizedBox(height: 25,),
+          GetX<MovieController>(
+            init: MovieController(),
+            builder: (controller) {
+              return CarouselSlider(
+                options: CarouselOptions(
+                    height: size.height/2.35,
+                    autoPlay: true,
+                    enableInfiniteScroll: true,
+                    autoPlayInterval: Duration(seconds: 5),
+                    autoPlayAnimationDuration: Duration(milliseconds: 1200),
+                    enlargeCenterPage: true,
+                    autoPlayCurve: Curves.fastOutSlowIn,
+
+                ),
+                items: controller.movies.map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviePage(index: i['_id'],data: i,)));
+                        },
+                        child: Hero(
+                          tag: i['_id'],
+                          child: Container(
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width,
+                              margin: EdgeInsets.symmetric(horizontal: 10.0),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  image:DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image:   NetworkImage(i['mainImagePath'])
+                                  )
+
+                              ),
+
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }).toList(),
+              );
+            },
+          )
         ],
       ));
 }
@@ -254,7 +302,7 @@ Widget play(size, context, movieController) {
           height: 20,
         ),
         Category(),
-        GetBuilder<MovieController>(
+        GetX<MovieController>(
             init: MovieController(),
             builder: (controller) {
               return Container(
@@ -263,7 +311,7 @@ Widget play(size, context, movieController) {
                     shrinkWrap: true,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: size.height * 0.00070,
+                      childAspectRatio: size.height * 0.000750,
                       crossAxisSpacing: 15,
                     ),
                     itemCount: controller.movies.length,

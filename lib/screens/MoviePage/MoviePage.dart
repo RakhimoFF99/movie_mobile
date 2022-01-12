@@ -37,7 +37,7 @@ class _MoviePageState extends State<MoviePage> {
                       init: HomeController(),
                       builder: (controller) {
                         return Container(
-                          height: size.height / 3.5,
+                          height: size.height / 3,
                           width: double.infinity,
                           child: Center(
                               child: controller.chewieController != null &&
@@ -66,7 +66,7 @@ class _MoviePageState extends State<MoviePage> {
                         Hero(
                           tag: widget.index,
                           child: Container(
-                            height: size.height / 3.5,
+                            height: size.height / 3,
                             width: double.infinity,
                             child: Container(
                               child: Image.network(widget.data['mainImagePath'],
