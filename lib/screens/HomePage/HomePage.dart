@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:movie_app/Constants.dart';
 import 'package:movie_app/getx/movie_controller/movie_controller.dart';
 import 'package:movie_app/screens/HomePage/components/Category.dart';
+import 'package:movie_app/screens/HomePage/components/OrderMovie.dart';
 import 'package:movie_app/screens/HomePage/components/movieCard.dart';
 import 'package:get/get.dart';
 import 'package:movie_app/screens/MoviePage/MoviePage.dart';
@@ -343,7 +345,8 @@ Widget play(size, context, movieController) {
 }
 
 Widget personAccount(size, context, movieController) {
-  return Column(
-    children: [],
+
+  return Container(
+    child: OrderMovie(),
   );
 }
