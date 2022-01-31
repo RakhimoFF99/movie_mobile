@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class MovieCard extends StatelessWidget {
   final data;
-  final index;
-  MovieCard({this.data, this.index});
+
+  MovieCard({
+    this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,22 +14,22 @@ class MovieCard extends StatelessWidget {
 
     return Column(
       children: [
-        Hero(
-          tag: index,
-          child: Container(
-              height: size.height / 3.5,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                      data['mainImagePath'],
-                    )),
-              )),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: CachedNetworkImage(
+            width: double.infinity,
+            height: size.height / 3.3,
+            fit: BoxFit.fill,
+            imageUrl: data['mainImagePath'],
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Center(
+              child: CircularProgressIndicator(
+                  value: downloadProgress.progress, color: Colors.white),
+            ),
+          ),
         ),
         SizedBox(
-          height: 8,
+          height: 10,
         ),
         Container(
           child: Text(
@@ -35,6 +38,7 @@ class MovieCard extends StatelessWidget {
                 color: Colors.white,
                 fontWeight: FontWeight.w800,
                 fontSize: size.width / 25),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

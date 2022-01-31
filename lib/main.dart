@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/screens/HomePage/HomePage.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 void main() {
@@ -15,9 +16,10 @@ class MyApp extends StatelessWidget {
         title: 'EMovie',
         theme: ThemeData(
           brightness: Brightness.dark,
-          scaffoldBackgroundColor: Color(0xff15141F),
+          scaffoldBackgroundColor: Color(0xff181425),
           splashFactory: InkRipple.splashFactory,
         ),
+        builder: EasyLoading.init(),
         home: HomePage());
   }
 }
